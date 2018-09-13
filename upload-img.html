@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图片上传前预览</title>
+    <script>
+
+        // 史前时代
+        //先把文件上传到服务器，等服务器返回文件的地址后，再把该地址字符串赋给img或video的src属性，这才实现所谓的文件预览
+
+        //上传前预览
+        // File接口基于Blob，继承了Blob的功能,并且扩展支持了用户计算机上的本地文件。
+        function handleFile(e) {
+            var file = e.files[0];
+            console.log('e.files,', e.files)
+            var fileReader = new FileReader();
+            var img = document.getElementsByTagName("img")[0];
+            // readAsBinaryString  二进制数据只能被机器识别，若想对外可见，还是需要进行一次编码，而readAsBinaryString的结果就是读取二进制并编码后的内容。
+            // 尽管readAsBinaryString方法可以按字节读取文件，但由于读取后的内容被编码为字符，大小会受到影响，故不适合直接传输，也不推荐使用
+            // readAsArrayBuffer 读取文件后，会在内存中创建一个ArrayBuffer对象（二进制缓冲区），将二进制数据存放在其中。通过此方式，我们可以直接在网络中传输二进制内容
+            fileReader.readAsDataURL(file);  //异步读取, 生成一个Data URL, readAsText
+            fileReader.onload = function(e) {
+                console.log('onload e=> ', e);
+                img.src = e.target.result;
+            }
+            fileReader.onerror = function(e) {
+                console.log('读取出错')
+            }
+        }
+
+        function handleFile(e) {
+            var file = e.files[0];
+            console.log('URL:', URL);
+            // blob: Binary Large Object  二进制类型的大对象 能实现视频上传
+            var blob = URL.createObjectURL(file); // 这个URL的生命仅存在于它被创建的这个文档里
+            console.log('blob:', blob);
+            var img = document.getElementsByTagName("img")[0];
+            img.src = blob;
+            img.onload = function(e) {
+                console.log('e:', e, this);
+
+                // 释放createObjectURL创建的对象  被释放掉以后,这个对象URL就不再指向指定的文件了
+                // 当页面被关闭,浏览器会自动释放它,但是为了最佳性能和内存使用,当确保不再用得到它的时候,就应该释放它.
+                URL.revokeObjectURL(this.src);
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <input type="file" accept="image/*" onchange="handleFile(this)" />
+    <img style="width: 200px;height: 200px">
+</body>
+</html>
+
+
+
+
+
+
+
+<!--
+ni
+分割符 bound 可以自己任意规定
+和post的请求体不同的是它的构造方式，post是简单的name=value值连接，而multipart/form-data则是添加了分隔符等内容的构造体
+Content-Type: multipart/form-data; boundary=${bound}
+
+
+
+-->
