@@ -9,6 +9,7 @@
         //先把文件上传到服务器，等服务器返回文件的地址后，再把该地址字符串赋给img或video的src属性，这才实现所谓的文件预览
 
         //上传前预览
+        // 方案一 FileReader
         // File接口基于Blob，继承了Blob的功能,并且扩展支持了用户计算机上的本地文件。
         function handleFile(e) {
             var file = e.files[0];
@@ -28,6 +29,7 @@
             }
         }
 
+        // 方案二 BLOB
         function handleFile(e) {
             var file = e.files[0];
             console.log('URL:', URL);
@@ -60,11 +62,7 @@
 
 
 <!--
-ni
 分割符 bound 可以自己任意规定
 和post的请求体不同的是它的构造方式，post是简单的name=value值连接，而multipart/form-data则是添加了分隔符等内容的构造体
 Content-Type: multipart/form-data; boundary=${bound}
-
-
-
 -->
