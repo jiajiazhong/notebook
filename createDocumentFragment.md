@@ -1,0 +1,7 @@
+#document.createDocumentFragment() 方法
+创建虚拟节点对象
+
+使用appendChild()方法处理元素节点时，浏览器会在遇到时即时处理，一个或两个不会有什么问题，如果需要添加1000个时，所花费的时间就不能忽视。
+
+解决这个问题的是称为DocumentFragment的DOM接口。可以把DocumentFragment称为节点元素容器。使用DocumentFragment创建的容器中事先放入了所有的想要添加的节点。 整个DocumentFragment容器一起添加到HTML上。这样，浏览器1次完成所有处理。
+
